@@ -3,6 +3,8 @@ package Cells;
 import Expressions.Expr;
 import Expressions.Values.Value;
 
+import java.util.Map;
+
 public interface CellGraph {
     /**
      * Get the specified cell
@@ -27,7 +29,14 @@ public interface CellGraph {
     Value getValue(String name);
 
     /**
-     * Sets the contents of the specified cell, or creates it if it doesn't exist
+     * Get all cell values.
+     * @return all cell values
+     */
+    Map<String, Value> getValues();
+
+    /**
+     * Sets the contents of the specified cell, or creates it if it doesn't exist.
+     * Responsible for updating cell values appropriately
      * @param name the name of the specified cell
      * @param expr the contents of the cell
      */
