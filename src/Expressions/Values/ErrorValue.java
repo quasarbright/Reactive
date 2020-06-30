@@ -1,5 +1,7 @@
 package Expressions.Values;
 
+import java.util.Objects;
+
 public class ErrorValue implements Value {
     private String message;
 
@@ -65,5 +67,25 @@ public class ErrorValue implements Value {
     @Override
     public Value divDouble(double d) {
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ErrorValue that = (ErrorValue) o;
+        return Objects.equals(message, that.message);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(message);
+    }
+
+    @Override
+    public String toString() {
+        return "ErrorValue{" +
+                "message='" + message + '\'' +
+                '}';
     }
 }

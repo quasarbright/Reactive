@@ -1,5 +1,7 @@
 package Expressions.Values;
 
+import java.util.Objects;
+
 public class DoubleValue implements Value {
     private double val;
 
@@ -73,5 +75,25 @@ public class DoubleValue implements Value {
         } else {
             return new DoubleValue(this.val / d);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DoubleValue that = (DoubleValue) o;
+        return Double.compare(that.val, val) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(val);
+    }
+
+    @Override
+    public String toString() {
+        return "DoubleValue{" +
+                "val=" + val +
+                '}';
     }
 }

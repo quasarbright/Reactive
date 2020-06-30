@@ -13,4 +13,12 @@ public class DivideExpr extends BinopExpr {
     protected Value evalHelp(Value left, Value right) {
         return left.divWith(right);
     }
+
+    @Override
+    public String toString() {
+        return "DivideExpr{" +
+                "left=" + left +
+                ", right=" + right +
+                '}';
+    }
 }
