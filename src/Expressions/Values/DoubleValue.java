@@ -31,12 +31,12 @@ public class DoubleValue implements Value {
 
     @Override
     public Value subInt(int i) {
-        return new DoubleValue(this.val - i);
+        return new DoubleValue(i - this.val);
     }
 
     @Override
     public Value subDouble(double d) {
-        return new DoubleValue(this.val - d);
+        return new DoubleValue(d - this.val);
     }
 
     @Override
@@ -61,19 +61,19 @@ public class DoubleValue implements Value {
 
     @Override
     public Value divInt(int i) {
-        if (i == 0) {
+        if (this.val == 0) {
             return new ErrorValue("divide by zero");
         } else {
-            return new DoubleValue(this.val / i);
+            return new DoubleValue(i / this.val);
         }
     }
 
     @Override
     public Value divDouble(double d) {
-        if (d == 0) {
+        if (this.val == 0) {
             return new ErrorValue("divide by zero");
         } else {
-            return new DoubleValue(this.val / d);
+            return new DoubleValue(d / this.val);
         }
     }
 

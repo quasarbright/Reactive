@@ -9,7 +9,7 @@ public class MinusExpr extends BinopExpr {
 
     @Override
     protected Value evalHelp(Value left, Value right) {
-        return left.mulWith(right);
+        return left.subWith(right);
     }
 
     @Override
