@@ -5,7 +5,7 @@ import expressions.values.Value;
 
 import java.util.Map;
 
-public interface CellGraph {
+public interface Model {
     /**
      * Get the specified cell
      * @param name the name of the cell

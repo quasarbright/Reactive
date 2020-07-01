@@ -15,14 +15,14 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
-public abstract class CellGraphTest {
+public abstract class ModelTest {
 
-    protected CellGraph g;
+    protected Model g;
 
     /**
      * return an empty cell graph
      */
-    protected abstract CellGraph factory();
+    protected abstract Model factory();
 
     @Before
     public void setup() {
