@@ -1,6 +1,6 @@
-package Expressions;
+package expressions;
 
-import Expressions.Values.Value;
+import expressions.values.Value;
 
 import java.util.Objects;
 import java.util.function.Function;

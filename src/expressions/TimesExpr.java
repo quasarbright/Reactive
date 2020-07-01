@@ -1,6 +1,6 @@
-package Expressions;
+package expressions;
 
-import Expressions.Values.Value;
+import expressions.values.Value;
 
 public class TimesExpr extends BinopExpr {
     public TimesExpr(Expr left, Expr right) {

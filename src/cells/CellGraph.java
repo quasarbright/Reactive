@@ -1,7 +1,7 @@
-package Cells;
+package cells;
 
-import Expressions.Expr;
-import Expressions.Values.Value;
+import expressions.Expr;
+import expressions.values.Value;
 
 import java.util.Map;
 

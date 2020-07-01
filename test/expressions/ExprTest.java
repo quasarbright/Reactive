@@ -1,9 +1,9 @@
-package Expressions;
+package expressions;
 
-import Expressions.Values.DoubleValue;
-import Expressions.Values.ErrorValue;
-import Expressions.Values.IntValue;
-import Expressions.Values.Value;
+import expressions.values.DoubleValue;
+import expressions.values.ErrorValue;
+import expressions.values.IntValue;
+import expressions.values.Value;
 import org.junit.Test;
 
 import java.util.function.Function;

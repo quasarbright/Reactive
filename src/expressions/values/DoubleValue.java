@@ -1,22 +1,22 @@
-package Expressions.Values;
+package expressions.values;
 
 import java.util.Objects;
 
-public class IntValue implements Value {
-    private final int val;
+public class DoubleValue implements Value {
+    private final double val;
 
-    public IntValue(int val) {
+    public DoubleValue(double val) {
         this.val = val;
     }
 
     @Override
     public Value addWith(Value that) {
-        return that.addInt(this.val);
+        return that.addDouble(this.val);
     }
 
     @Override
     public Value addInt(int i) {
-        return new IntValue(this.val + i);
+        return new DoubleValue(this.val + i);
     }
 
     @Override
@@ -26,12 +26,12 @@ public class IntValue implements Value {
 
     @Override
     public Value subWith(Value that) {
-        return that.subInt(this.val);
+        return that.subDouble(this.val);
     }
 
     @Override
     public Value subInt(int i) {
-        return new IntValue(i - this.val);
+        return new DoubleValue(i - this.val);
     }
 
     @Override
@@ -41,12 +41,12 @@ public class IntValue implements Value {
 
     @Override
     public Value mulWith(Value that) {
-        return that.mulInt(this.val);
+        return that.mulDouble(this.val);
     }
 
     @Override
     public Value mulInt(int i) {
-        return new IntValue(this.val * i);
+        return new DoubleValue(this.val * i);
     }
 
     @Override
@@ -56,21 +56,21 @@ public class IntValue implements Value {
 
     @Override
     public Value divWith(Value that) {
-        return that.divInt(this.val);
+        return that.divDouble(this.val);
     }
 
     @Override
     public Value divInt(int i) {
-        if(this.val == 0) {
+        if (this.val == 0) {
             return new ErrorValue("divide by zero");
         } else {
-            return new IntValue(i / this.val);
+            return new DoubleValue(i / this.val);
         }
     }
 
     @Override
     public Value divDouble(double d) {
-        if(this.val == 0) {
+        if (this.val == 0) {
             return new ErrorValue("divide by zero");
         } else {
             return new DoubleValue(d / this.val);
@@ -81,8 +81,8 @@ public class IntValue implements Value {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        IntValue intValue = (IntValue) o;
-        return val == intValue.val;
+        DoubleValue that = (DoubleValue) o;
+        return Double.compare(that.val, val) == 0;
     }
 
     @Override
@@ -92,7 +92,7 @@ public class IntValue implements Value {
 
     @Override
     public String toString() {
-        return "IntValue{" +
+        return "DoubleValue{" +
                 "val=" + val +
                 '}';
     }

@@ -1,12 +1,12 @@
-package Cells;
+package cells;
 
-import Expressions.DivideExpr;
-import Expressions.PlusExpr;
-import Expressions.TimesExpr;
-import Expressions.Values.ErrorValue;
-import Expressions.Values.IntValue;
-import Expressions.Values.Value;
-import Expressions.VarExpr;
+import expressions.DivideExpr;
+import expressions.PlusExpr;
+import expressions.TimesExpr;
+import expressions.values.ErrorValue;
+import expressions.values.IntValue;
+import expressions.values.Value;
+import expressions.VarExpr;
 import org.junit.Before;
 import org.junit.Test;
 
