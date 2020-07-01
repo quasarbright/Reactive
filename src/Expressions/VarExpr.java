@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 public class VarExpr implements Expr {
-    private String name;
+    private final String name;
 
     public VarExpr(String name) {
         this.name = name;

@@ -3,7 +3,7 @@ package Expressions.Values;
 import java.util.Objects;
 
 public class IntValue implements Value {
-    private int val;
+    private final int val;
 
     public IntValue(int val) {
         this.val = val;

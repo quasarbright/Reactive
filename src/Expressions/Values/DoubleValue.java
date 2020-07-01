@@ -3,7 +3,7 @@ package Expressions.Values;
 import java.util.Objects;
 
 public class DoubleValue implements Value {
-    private double val;
+    private final double val;
 
     public DoubleValue(double val) {
         this.val = val;

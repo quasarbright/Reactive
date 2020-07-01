@@ -3,7 +3,7 @@ package Expressions.Values;
 import java.util.Objects;
 
 public class ErrorValue implements Value {
-    private String message;
+    private final String message;
 
     public ErrorValue(String message) {
         this.message = message;

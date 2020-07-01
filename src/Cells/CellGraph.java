@@ -10,6 +10,7 @@ public interface CellGraph {
      * Get the specified cell
      * @param name the name of the cell
      * @return the cell
+     * @throws IllegalArgumentException if name not found
      */
     Cell getCell(String name);
 
@@ -18,13 +19,15 @@ public interface CellGraph {
      * Get the expr of the specified cell
      * @param name the name of the cell
      * @return the expr of the cell
+     * @throws IllegalArgumentException if name not found
      */
     Expr getExpr(String name);
 
     /**
-     * Get the fully evaluated value of the specified cell
+     * Get the fully evaluated value of the specified cell.
      * @param name the name of the cell
      * @return the fully evaluated value of the specified cell
+     * @throws IllegalArgumentException if name not found
      */
     Value getValue(String name);
 
