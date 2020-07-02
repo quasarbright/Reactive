@@ -2,7 +2,9 @@ package expressions;
 
 import expressions.values.Value;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Function;
 
 public abstract class BinopExpr implements Expr {
@@ -34,5 +36,13 @@ public abstract class BinopExpr implements Expr {
         BinopExpr binopExpr = (BinopExpr) o;
         return left.equals(binopExpr.left) &&
                 right.equals(binopExpr.right);
+    }
+
+    @Override
+    public Set<String> getFreeVars() {
+        Set<String> left = new HashSet<>(this.left.getFreeVars());
+        Set<String> right = this.right.getFreeVars();
+        left.addAll(right);
+        return left;
     }
 }

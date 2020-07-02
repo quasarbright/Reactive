@@ -2,7 +2,9 @@ package expressions;
 
 import expressions.values.Value;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Function;
 
 public class VarExpr implements Expr {
@@ -15,6 +17,11 @@ public class VarExpr implements Expr {
     @Override
     public Value evaluate(Function<String, Value> env) {
         return env.apply(this.name);
+    }
+
+    @Override
+    public Set<String> getFreeVars() {
+        return new HashSet<>(Set.of(this.name));
     }
 
     @Override

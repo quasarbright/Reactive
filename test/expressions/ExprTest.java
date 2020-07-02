@@ -6,6 +6,7 @@ import expressions.values.IntValue;
 import expressions.values.Value;
 import org.junit.Test;
 
+import java.util.Set;
 import java.util.function.Function;
 
 import static org.junit.Assert.*;
@@ -150,5 +151,16 @@ public class ExprTest {
                 new TimesExpr(new IntValue(1), new DivideExpr(new IntValue(1), new IntValue(0))),
                 div0
         );
+    }
+
+    private void tFreeVars(Expr expr, String... vars) {
+        assertEquals(Set.of(vars), expr.getFreeVars());
+    }
+
+    @Test
+    public void freeVars() {
+        tFreeVars(new VarExpr("x"), "x");
+        tFreeVars(new IntValue(1));
+        tFreeVars(new PlusExpr(new VarExpr("x"), new PlusExpr(new PlusExpr(new VarExpr("x"), new IntValue(1)), new VarExpr("y"))), "x", "y");
     }
 }

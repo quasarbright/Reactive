@@ -32,11 +32,11 @@ public abstract class ModelTest {
     @Test
     public void getCell() {
         g.setCell("x", new IntValue(1));
-        assertEquals(new Cell("x", new IntValue(1)), g.getCell("x"));
+        assertEquals(new Cell("x", new IntValue(1)).expr, g.getCell("x").expr);
         g.setCell("y", new IntValue(2));
-        assertEquals(new Cell("y", new IntValue(2)), g.getCell("y"));
+        assertEquals(new Cell("y", new IntValue(2)).expr, g.getCell("y").expr);
         g.setCell("x", new IntValue(3));
-        assertEquals(new Cell("x", new IntValue(3)), g.getCell("x"));
+        assertEquals(new Cell("x", new IntValue(3)).expr, g.getCell("x").expr);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -93,8 +93,13 @@ public abstract class ModelTest {
 
     @Test
     public void circularReference() {
-        g.setCell("x", new VarExpr("x"));
-        fail("test not implemented"); // TODO decide how this'll work
+        g.setCell("x", new IntValue(2));
+        try{
+            g.setCell("x", new VarExpr("x"));
+            fail();
+        } catch (IllegalStateException e) {
+            assertEquals(new IntValue(2), g.getValue("x"));
+        }
     }
 
     @Test
@@ -113,9 +118,9 @@ public abstract class ModelTest {
         assertEquals(new IntValue(701408733), g.getValue("f_43"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void getValueBadName() {
-        g.getValue("x");
+        assertEquals(new ErrorValue("name x not found"), g.getValue("x"));
     }
 
     @Test
@@ -137,8 +142,8 @@ public abstract class ModelTest {
         expected.put("z", new IntValue(10));
         expected.put("a", new IntValue(6));
         expected.put("div0", new ErrorValue("divide by zero"));
-        expected.put("badVar", new ErrorValue("divide by zero"));
-        expected.put("refErr", new ErrorValue("divide by zero"));
+        expected.put("badVar", new ErrorValue("name functionsInJava not found"));
+        expected.put("refErr", new ErrorValue("name functionsInJava not found"));
         assertEquals(expected, g.getValues());
     }
 }

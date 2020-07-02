@@ -7,8 +7,8 @@ import java.util.Objects;
 import java.util.function.Function;
 
 public class Cell {
-    private final String name;
-    private final Expr expr;
+    public final String name;
+    public final Expr expr;
     private Value value;
 
     public Cell(String name, Expr expr) {

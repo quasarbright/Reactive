@@ -2,12 +2,19 @@ package expressions.values;
 
 import expressions.Expr;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Function;
 
 public interface Value extends Expr {
     @Override
     default Value evaluate(Function<String, Value> env) {
         return this;
+    }
+
+    @Override
+    default Set<String> getFreeVars() {
+        return new HashSet<>();
     }
 
     Value addWith(Value that);
