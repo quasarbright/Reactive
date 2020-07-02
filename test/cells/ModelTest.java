@@ -89,6 +89,9 @@ public abstract class ModelTest {
         assertEquals(new ErrorValue("divide by zero"), g.getValue("div0"));
         assertEquals(new ErrorValue("name functionsInJava not found"), g.getValue("badVar"));
         assertEquals(new ErrorValue("name functionsInJava not found"), g.getValue("refErr"));
+        g.setCell("x", new IntValue(4));
+        assertEquals(new IntValue(7), g.getValue("y"));
+        assertEquals(new IntValue(28), g.getValue("z"));
     }
 
     @Test
@@ -115,6 +118,25 @@ public abstract class ModelTest {
                     )
             );
         }
+        assertEquals(new IntValue(701408733), g.getValue("f_43"));
+    }
+
+    @Test
+    public void fibBackProp() {
+        g.setCell("f_0", new IntValue(-1));
+        g.setCell("f_1", new IntValue(-1));
+        for(int i = 2; i <= 43; i++) {
+            g.setCell(
+                    "f_"+i,
+                    new PlusExpr(
+                            new VarExpr("f_"+(i-1)),
+                            new VarExpr("f_"+(i-2))
+                    )
+            );
+        }
+        assertEquals(new IntValue(-701408733), g.getValue("f_43"));
+        g.setCell("f_0", new IntValue(1));
+        g.setCell("f_1", new IntValue(1));
         assertEquals(new IntValue(701408733), g.getValue("f_43"));
     }
 

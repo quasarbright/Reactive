@@ -138,6 +138,30 @@ public class CellGraph implements Model {
         return false;
     }
 
+    /**
+     * Topological sort of the parents of the root (for backprop)
+     * @param root the root of the backprop
+     * @return the ordered list of names to update
+     */
+    private List<String> topSort(String root) {
+        List<String> ans = new ArrayList<>();
+        Set<String> seen = new HashSet<>();
+        this.topSortHelp(root, seen, ans);
+        Collections.reverse(ans);
+        return ans;
+    }
+
+    private void topSortHelp(String curr, Set<String> seen, List<String> ans) {
+        Set<String> parents = this.getParents(curr);
+        seen.add(curr);
+        parents.forEach(parent -> {
+            if(!seen.contains(parent)) {
+                topSortHelp(parent, seen, ans);
+            }
+        });
+        ans.add(curr);
+    }
+
     @Override
     public void setCell(String parent, Expr expr) {
         this.backup();
@@ -161,18 +185,24 @@ public class CellGraph implements Model {
         // backprop
         this.cells.put(parent, Optional.of(new Cell(parent, expr, this::getValue)));
 
-        Set<String> seen = new HashSet<>();
-        Stack<String> workList = new Stack<>();
-        workList.push(parent);
-        while(!workList.empty()) {
-            String curr = workList.pop();
-            if(seen.contains(curr)) {
-                continue;
-            }
-            this.cells.get(curr).ifPresent(cell -> cell.reevaluate(this::getValue));
-            seen.add(curr);
-            Set<String> parents = this.getParents(curr);
-            parents.forEach(workList::push);
-        }
+        List<String> nodes = this.topSort(parent);
+        nodes.forEach(name ->
+                this.cells.get(name).ifPresent(
+                        cell -> cell.reevaluate(this::getValue)));
+
+
+//        Set<String> seen = new HashSet<>();
+//        Stack<String> workList = new Stack<>();
+//        workList.push(parent);
+//        while(!workList.empty()) {
+//            String curr = workList.pop();
+//            if(seen.contains(curr)) {
+//                continue;
+//            }
+//            this.cells.get(curr).ifPresent(cell -> cell.reevaluate(this::getValue));
+//            seen.add(curr);
+//            Set<String> parents = this.getParents(curr);
+//            parents.forEach(workList::push);
+//        }
     }
 }
