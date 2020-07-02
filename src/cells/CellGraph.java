@@ -6,21 +6,21 @@ import expressions.values.Value;
 
 import java.util.*;
 
-public class CellGraph implements Model {
+public class CellGraph<Name> implements Model<Name> {
     /*
     Invariants:
     - env is up to date
     - keys of cells, parents, and children are the same
      */
-    private Map<String, Optional<Cell>> cells;
-    private Map<String, Optional<Cell>> cells_;
+    private Map<Name, Optional<Cell<Name>>> cells;
+    private Map<Name, Optional<Cell<Name>>> cells_;
     // maps nodes to their parents
-    private Map<String, Set<String>> parents;
-    private Map<String, Set<String>> parents_;
+    private Map<Name, Set<Name>> parents;
+    private Map<Name, Set<Name>> parents_;
     // maps nodes to their children
-    // use strings instead of cells because cells may not exist yet
-    private Map<String, Set<String>> children;
-    private Map<String, Set<String>> children_;
+    // use Names instead of cells because cells may not exist yet
+    private Map<Name, Set<Name>> children;
+    private Map<Name, Set<Name>> children_;
 
     public CellGraph() {
         this.cells = new HashMap<>();
@@ -43,7 +43,7 @@ public class CellGraph implements Model {
         this.children = new HashMap<>(this.children_);
     }
 
-    private void ensureKey(String name) {
+    private void ensureKey(Name name) {
         if(!this.cells.containsKey(name)) {
             this.cells.put(name, Optional.empty());
         }
@@ -55,24 +55,24 @@ public class CellGraph implements Model {
         }
     }
 
-    private Set<String> getParents(String name) {
+    private Set<Name> getParents(Name name) {
         this.ensureKey(name);
         return this.parents.get(name);
     }
 
-    private Set<String> getChildren(String name) {
+    private Set<Name> getChildren(Name name) {
         this.ensureKey(name);
         return this.children.get(name);
     }
 
-    private void disown(String parent, String child) {
+    private void disown(Name parent, Name child) {
         this.ensureKey(parent);
         this.ensureKey(child);
         this.parents.get(child).remove(parent);
         this.children.get(parent).remove(child);
     }
 
-    private void adopt(String parent, String child) {
+    private void adopt(Name parent, Name child) {
         this.ensureKey(parent);
         this.ensureKey(child);
         this.parents.get(child).add(parent);
@@ -80,9 +80,9 @@ public class CellGraph implements Model {
     }
 
     @Override
-    public Cell getCell(String name) {
+    public Cell<Name> getCell(Name name) {
         if (this.cells.containsKey(name)) {
-            Optional<Cell> maybeCell = this.cells.get(name);
+            Optional<Cell<Name>> maybeCell = this.cells.get(name);
             if (maybeCell.isPresent()) {
                 return maybeCell.get();
             }
@@ -91,39 +91,39 @@ public class CellGraph implements Model {
     }
 
     @Override
-    public Expr getExpr(String name) {
-        Cell cell = this.getCell(name);
+    public Expr<Name> getExpr(Name name) {
+        Cell<Name> cell = this.getCell(name);
         return cell.expr;
     }
 
     @Override
-    public Value getValue(String name) {
+    public Value<Name> getValue(Name name) {
         if(this.cells.containsKey(name)) {
-            Optional<Cell> maybeCell = this.cells.get(name);
+            Optional<Cell<Name>> maybeCell = this.cells.get(name);
             if(maybeCell.isPresent()) {
-                Cell cell = maybeCell.get();
+                Cell<Name> cell = maybeCell.get();
                 return cell.getValue();
             }
         }
-        return new ErrorValue("name "+name+" not found");
+        return new ErrorValue<>("name "+name+" not found");
     }
 
     @Override
-    public Map<String, Value> getValues() {
-        Map<String, Value> ans = new HashMap<>();
+    public Map<Name, Value<Name>> getValues() {
+        Map<Name, Value<Name>> ans = new HashMap<>();
         this.cells.values().stream()
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .forEach((Cell cell) -> ans.put(cell.name, cell.getValue()));
+                .forEach((Cell<Name> cell) -> ans.put(cell.name, cell.getValue()));
         return ans;
     }
 
-    private boolean cycleCheck(String name) {
-        Stack<String> workList = new Stack<>();
-        Set<String> seen = new HashSet<>();
+    private boolean cycleCheck(Name name) {
+        Stack<Name> workList = new Stack<>();
+        Set<Name> seen = new HashSet<>();
         this.getChildren(name).forEach(workList::push);
         while(!workList.empty()) {
-            String curr = workList.pop();
+            Name curr = workList.pop();
             if(curr.equals(name)) {
                 return true;
             }
@@ -132,27 +132,27 @@ public class CellGraph implements Model {
             } else {
                 seen.add(curr);
             }
-            Set<String> children = this.getChildren(curr);
+            Set<Name> children = this.getChildren(curr);
             children.forEach(workList::push);
         }
         return false;
     }
 
     /**
-     * Topological sort of the parents of the root (for backprop)
-     * @param root the root of the backprop
+     * Topological sort of the parents of the root (for back prop)
+     * @param root the root of the back prop
      * @return the ordered list of names to update
      */
-    private List<String> topSort(String root) {
-        List<String> ans = new ArrayList<>();
-        Set<String> seen = new HashSet<>();
+    private List<Name> topSort(Name root) {
+        List<Name> ans = new ArrayList<>();
+        Set<Name> seen = new HashSet<>();
         this.topSortHelp(root, seen, ans);
         Collections.reverse(ans);
         return ans;
     }
 
-    private void topSortHelp(String curr, Set<String> seen, List<String> ans) {
-        Set<String> parents = this.getParents(curr);
+    private void topSortHelp(Name curr, Set<Name> seen, List<Name> ans) {
+        Set<Name> parents = this.getParents(curr);
         seen.add(curr);
         parents.forEach(parent -> {
             if(!seen.contains(parent)) {
@@ -163,14 +163,14 @@ public class CellGraph implements Model {
     }
 
     @Override
-    public void setCell(String parent, Expr expr) {
+    public void setCell(Name parent, Expr<Name> expr) {
         this.backup();
         this.ensureKey(parent);
 
-        Set<String> newChildren = expr.getFreeVars();
+        Set<Name> newChildren = expr.getFreeVars();
         newChildren.forEach(this::ensureKey);
 
-        Set<String> oldChildren = this.getChildren(parent);
+        Set<Name> oldChildren = this.getChildren(parent);
 
         // update connections
         oldChildren.forEach(child -> this.disown(parent, child));
@@ -182,27 +182,12 @@ public class CellGraph implements Model {
             throw new IllegalStateException("cyclic definition");
         }
 
-        // backprop
-        this.cells.put(parent, Optional.of(new Cell(parent, expr, this::getValue)));
+        // back prop
+        this.cells.put(parent, Optional.of(new Cell<>(parent, expr, this::getValue)));
 
-        List<String> nodes = this.topSort(parent);
+        List<Name> nodes = this.topSort(parent);
         nodes.forEach(name ->
                 this.cells.get(name).ifPresent(
                         cell -> cell.reevaluate(this::getValue)));
-
-
-//        Set<String> seen = new HashSet<>();
-//        Stack<String> workList = new Stack<>();
-//        workList.push(parent);
-//        while(!workList.empty()) {
-//            String curr = workList.pop();
-//            if(seen.contains(curr)) {
-//                continue;
-//            }
-//            this.cells.get(curr).ifPresent(cell -> cell.reevaluate(this::getValue));
-//            seen.add(curr);
-//            Set<String> parents = this.getParents(curr);
-//            parents.forEach(workList::push);
-//        }
     }
 }

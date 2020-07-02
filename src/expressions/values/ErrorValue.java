@@ -2,7 +2,7 @@ package expressions.values;
 
 import java.util.Objects;
 
-public class ErrorValue implements Value {
+public class ErrorValue<Name> implements Value<Name> {
     private final String message;
 
     public ErrorValue(String message) {
@@ -10,62 +10,62 @@ public class ErrorValue implements Value {
     }
 
     @Override
-    public Value addWith(Value that) {
+    public Value<Name> addWith(Value<Name> that) {
         return this;
     }
 
     @Override
-    public Value addInt(int i) {
+    public Value<Name> addInt(int i) {
         return this;
     }
 
     @Override
-    public Value addDouble(double d) {
+    public Value<Name> addDouble(double d) {
         return this;
     }
 
     @Override
-    public Value subWith(Value that) {
+    public Value<Name> subWith(Value<Name> that) {
         return this;
     }
 
     @Override
-    public Value subInt(int i) {
+    public Value<Name> subInt(int i) {
         return this;
     }
 
     @Override
-    public Value subDouble(double d) {
+    public Value<Name> subDouble(double d) {
         return this;
     }
 
     @Override
-    public Value mulWith(Value that) {
+    public Value<Name> mulWith(Value<Name> that) {
         return this;
     }
 
     @Override
-    public Value mulInt(int i) {
+    public Value<Name> mulInt(int i) {
         return this;
     }
 
     @Override
-    public Value mulDouble(double d) {
+    public Value<Name> mulDouble(double d) {
         return this;
     }
 
     @Override
-    public Value divWith(Value that) {
+    public Value<Name> divWith(Value<Name> that) {
         return this;
     }
 
     @Override
-    public Value divInt(int i) {
+    public Value<Name> divInt(int i) {
         return this;
     }
 
     @Override
-    public Value divDouble(double d) {
+    public Value<Name> divDouble(double d) {
         return this;
     }
 
@@ -73,7 +73,7 @@ public class ErrorValue implements Value {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ErrorValue that = (ErrorValue) o;
+        ErrorValue<?> that = (ErrorValue<?>) o;
         return Objects.equals(message, that.message);
     }
 
@@ -84,7 +84,7 @@ public class ErrorValue implements Value {
 
     @Override
     public String toString() {
-        return "ErrorValue{" +
+        return "ErrorValue<Name>{" +
                 "message='" + message + '\'' +
                 '}';
     }

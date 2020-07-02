@@ -5,14 +5,14 @@ import expressions.values.Value;
 
 import java.util.Map;
 
-public interface Model {
+public interface Model<Name> {
     /**
      * Get the specified cell
      * @param name the name of the cell
      * @return the cell
      * @throws IllegalArgumentException if name not found
      */
-    Cell getCell(String name);
+    Cell<Name> getCell(Name name);
 
 
     /**
@@ -21,7 +21,7 @@ public interface Model {
      * @return the expr of the cell
      * @throws IllegalArgumentException if name not found
      */
-    Expr getExpr(String name);
+    Expr<Name> getExpr(Name name);
 
     /**
      * Get the fully evaluated value of the specified cell.
@@ -29,13 +29,13 @@ public interface Model {
      * @return the fully evaluated value of the specified cell
      * @throws IllegalArgumentException if name not found
      */
-    Value getValue(String name);
+    Value<Name> getValue(Name name);
 
     /**
      * Get all cell values.
      * @return all cell values
      */
-    Map<String, Value> getValues();
+    Map<Name, Value<Name>> getValues();
 
     /**
      * Sets the contents of the specified cell, or creates it if it doesn't exist.
@@ -43,5 +43,5 @@ public interface Model {
      * @param name the name of the specified cell
      * @param expr the contents of the cell
      */
-    void setCell(String name, Expr expr);
+    void setCell(Name name, Expr<Name> expr);
 }

@@ -7,20 +7,20 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 
-public class VarExpr implements Expr {
-    private final String name;
+public class VarExpr<Name> implements Expr<Name> {
+    private final Name name;
 
-    public VarExpr(String name) {
+    public VarExpr(Name name) {
         this.name = name;
     }
 
     @Override
-    public Value evaluate(Function<String, Value> env) {
+    public Value<Name> evaluate(Function<Name, Value<Name>> env) {
         return env.apply(this.name);
     }
 
     @Override
-    public Set<String> getFreeVars() {
+    public Set<Name> getFreeVars() {
         return new HashSet<>(Set.of(this.name));
     }
 
@@ -28,7 +28,7 @@ public class VarExpr implements Expr {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        VarExpr varExpr = (VarExpr) o;
+        VarExpr<?> varExpr = (VarExpr<?>) o;
         return name.equals(varExpr.name);
     }
 

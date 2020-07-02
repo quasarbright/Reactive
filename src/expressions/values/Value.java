@@ -6,30 +6,30 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
 
-public interface Value extends Expr {
+public interface Value<Name> extends Expr<Name> {
     @Override
-    default Value evaluate(Function<String, Value> env) {
+    default Value<Name> evaluate(Function<Name, Value<Name>> env) {
         return this;
     }
 
     @Override
-    default Set<String> getFreeVars() {
+    default Set<Name> getFreeVars() {
         return new HashSet<>();
     }
 
-    Value addWith(Value that);
-    Value addInt(int i);
-    Value addDouble(double d);
+    Value<Name> addWith(Value<Name> that);
+    Value<Name> addInt(int i);
+    Value<Name> addDouble(double d);
 
-    Value subWith(Value that);
-    Value subInt(int i);
-    Value subDouble(double d);
+    Value<Name> subWith(Value<Name> that);
+    Value<Name> subInt(int i);
+    Value<Name> subDouble(double d);
 
-    Value mulWith(Value that);
-    Value mulInt(int i);
-    Value mulDouble(double d);
+    Value<Name> mulWith(Value<Name> that);
+    Value<Name> mulInt(int i);
+    Value<Name> mulDouble(double d);
 
-    Value divWith(Value that);
-    Value divInt(int i);
-    Value divDouble(double d);
+    Value<Name> divWith(Value<Name> that);
+    Value<Name> divInt(int i);
+    Value<Name> divDouble(double d);
 }

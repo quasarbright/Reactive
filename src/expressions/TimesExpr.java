@@ -2,13 +2,13 @@ package expressions;
 
 import expressions.values.Value;
 
-public class TimesExpr extends BinopExpr {
-    public TimesExpr(Expr left, Expr right) {
+public class TimesExpr<Name> extends BinopExpr<Name> {
+    public TimesExpr(Expr<Name> left, Expr<Name> right) {
         super(left, right);
     }
 
     @Override
-    protected Value evalHelp(Value left, Value right) {
+    protected Value<Name> evalHelp(Value<Name> left, Value<Name> right) {
         return left.mulWith(right);
     }
 

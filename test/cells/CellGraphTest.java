@@ -2,7 +2,7 @@ package cells;
 
 public class CellGraphTest extends ModelTest {
     @Override
-    protected Model factory() {
-        return new CellGraph();
+    protected Model<String> factory() {
+        return new CellGraph<>();
     }
 }

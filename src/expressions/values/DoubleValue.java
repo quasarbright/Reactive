@@ -2,7 +2,7 @@ package expressions.values;
 
 import java.util.Objects;
 
-public class DoubleValue implements Value {
+public class DoubleValue<Name> implements Value<Name> {
     private final double val;
 
     public DoubleValue(double val) {
@@ -10,70 +10,70 @@ public class DoubleValue implements Value {
     }
 
     @Override
-    public Value addWith(Value that) {
+    public Value<Name> addWith(Value<Name> that) {
         return that.addDouble(this.val);
     }
 
     @Override
-    public Value addInt(int i) {
-        return new DoubleValue(this.val + i);
+    public Value<Name> addInt(int i) {
+        return new DoubleValue<>(this.val + i);
     }
 
     @Override
-    public Value addDouble(double d) {
-        return new DoubleValue(this.val + d);
+    public Value<Name> addDouble(double d) {
+        return new DoubleValue<>(this.val + d);
     }
 
     @Override
-    public Value subWith(Value that) {
+    public Value<Name> subWith(Value<Name> that) {
         return that.subDouble(this.val);
     }
 
     @Override
-    public Value subInt(int i) {
-        return new DoubleValue(i - this.val);
+    public Value<Name> subInt(int i) {
+        return new DoubleValue<>(i - this.val);
     }
 
     @Override
-    public Value subDouble(double d) {
-        return new DoubleValue(d - this.val);
+    public Value<Name> subDouble(double d) {
+        return new DoubleValue<>(d - this.val);
     }
 
     @Override
-    public Value mulWith(Value that) {
+    public Value<Name> mulWith(Value<Name> that) {
         return that.mulDouble(this.val);
     }
 
     @Override
-    public Value mulInt(int i) {
-        return new DoubleValue(this.val * i);
+    public Value<Name> mulInt(int i) {
+        return new DoubleValue<>(this.val * i);
     }
 
     @Override
-    public Value mulDouble(double d) {
-        return new DoubleValue(this.val * d);
+    public Value<Name> mulDouble(double d) {
+        return new DoubleValue<>(this.val * d);
     }
 
     @Override
-    public Value divWith(Value that) {
+    public Value<Name> divWith(Value<Name> that) {
         return that.divDouble(this.val);
     }
 
     @Override
-    public Value divInt(int i) {
+    public Value<Name> divInt(int i) {
         if (this.val == 0) {
-            return new ErrorValue("divide by zero");
+            return new ErrorValue<>("divide by zero");
         } else {
-            return new DoubleValue(i / this.val);
+            return new DoubleValue<>(i / this.val);
         }
     }
 
     @Override
-    public Value divDouble(double d) {
+    public Value<Name> divDouble(double d) {
         if (this.val == 0) {
-            return new ErrorValue("divide by zero");
+            return new ErrorValue<>("divide by zero");
         } else {
-            return new DoubleValue(d / this.val);
+            return new DoubleValue<>(d / this.val);
         }
     }
 
@@ -81,7 +81,7 @@ public class DoubleValue implements Value {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DoubleValue that = (DoubleValue) o;
+        DoubleValue<?> that = (DoubleValue<?>) o;
         return Double.compare(that.val, val) == 0;
     }
 
