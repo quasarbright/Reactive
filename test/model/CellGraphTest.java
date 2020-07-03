@@ -1,4 +1,4 @@
-package cells;
+package model;
 
 public class CellGraphTest extends ModelTest {
     @Override

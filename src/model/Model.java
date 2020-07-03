@@ -1,4 +1,4 @@
-package cells;
+package model;
 
 import expressions.Expr;
 import expressions.values.Value;
@@ -13,7 +13,6 @@ public interface Model<Name> {
      * @throws IllegalArgumentException if name not found
      */
     Cell<Name> getCell(Name name);
-
 
     /**
      * Get the expr of the specified cell

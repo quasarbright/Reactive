@@ -1,4 +1,4 @@
-package cells;
+package model;
 
 import expressions.Expr;
 import expressions.values.Value;
