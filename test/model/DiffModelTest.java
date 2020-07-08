@@ -17,11 +17,6 @@ public class DiffModelTest {
     private final DiffName dx = new DeltaName(x);
     private final DiffName v = new VarName("v");
     private final DiffName dv = new DeltaName(v);
-//    private final DiffName t = new VarName("t");
-//    private final DiffName dt = new DeltaName(t);
-//    private final DiffName m = new VarName("m");
-//    private final DiffName f = new VarName("f");
-//    private final DiffName k = new VarName("k");
     private final DiffName a = new VarName("a");
 
     @Before
@@ -128,19 +123,4 @@ public class DiffModelTest {
         assertEquals(new IntValue<>(1778), g.getValue(x));
         assertEquals(new IntValue<>(135), g.getValue(v));
     }
-
-    // too complicated for me to do by hand
-//    @Test
-//    public void testHookesLaw() {
-//        g.setCell(x, new DoubleValue<>(1));
-//        g.setCell(dx, new TimesExpr<>(new VarExpr<>(v), new VarExpr<>(dt)));
-//        g.setCell(v, new DoubleValue<>(0));
-//        g.setCell(dv, new TimesExpr<>(new VarExpr<>(a), new VarExpr<>(dt)));
-//        g.setCell(a, new DivideExpr<>(new VarExpr<>(f), new VarExpr<>(m)));
-//        g.setCell(m, new DoubleValue<>(1));
-//        g.setCell(k, new DoubleValue<>(1));
-//        g.setCell(f, new TimesExpr<>(new IntValue<>(-1), new TimesExpr<>(new VarExpr<>(k), new VarExpr<>(x))));
-//        g.setCell(dt, new DoubleValue<>(1));
-//        g.setCell(t, new DoubleValue<>(0));
-//    }
 }
