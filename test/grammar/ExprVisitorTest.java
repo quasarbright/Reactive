@@ -92,13 +92,20 @@ public class ExprVisitorTest {
 
     @Test
     public void pemdas() {
+        tParse("1 + 2 * 3", new PlusExpr<>(new IntValue<>(1), new TimesExpr<>(new IntValue<>(2), new IntValue<>(3))));
+        tParse("(1 + 2) * 3", new TimesExpr<>(new PlusExpr<>(new IntValue<>(1), new IntValue<>(2)), new IntValue<>(3)));
         tParse("1 * 2 / 3 + 4 - 5 * 6",
                 new MinusExpr<>(
                     new PlusExpr<>(
                         new DivideExpr<>(
                                 new TimesExpr<>(new IntValue<>(1), new IntValue<>(2)),
                                 new IntValue<>(3)),
-                    new IntValue<>(3)),
+                    new IntValue<>(4)),
                 new TimesExpr<>(new IntValue<>(5), new IntValue<>(6))));
+    }
+
+    @Test
+    public void unaryMinus() {
+        tParse("2-1", new MinusExpr<>(new IntValue<>(2), new IntValue<>(1)));
     }
 }

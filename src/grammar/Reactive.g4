@@ -48,14 +48,14 @@ expr: e=sumDiff;
 exprProgram : expr EOF;
 
 sumDiff
-    : left=prodDiv PLUS right=sumDiff # Plus
-    | left=prodDiv MINUS right=sumDiff # Minus
+    : left=sumDiff PLUS right=prodDiv # Plus
+    | left=sumDiff MINUS right=prodDiv # Minus
     | prodDiv # SDChild
     ;
 
 prodDiv
-    : left=parenExpr TIMES right=prodDiv # Times
-    | left=parenExpr DIVIDE right=prodDiv # Divide
+    : left=prodDiv TIMES right=parenExpr # Times
+    | left=prodDiv DIVIDE right=parenExpr # Divide
     | parenExpr # PDChild
     ;
 
