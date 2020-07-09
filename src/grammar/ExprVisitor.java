@@ -47,6 +47,16 @@ public class ExprVisitor extends ReactiveBaseVisitor<Expr<DiffName>> {
 
     @Override
     public Expr<DiffName> visitPDChild(ReactiveParser.PDChildContext ctx) {
+        return this.visit(ctx.uminus());
+    }
+
+    @Override
+    public Expr<DiffName> visitUMinus(ReactiveParser.UMinusContext ctx) {
+        return new NegExpr<>(this.visit(ctx.child));
+    }
+
+    @Override
+    public Expr<DiffName> visitUMChild(ReactiveParser.UMChildContext ctx) {
         return this.visit(ctx.parenExpr());
     }
 

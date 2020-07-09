@@ -132,6 +132,11 @@ public class ExprTest {
     }
 
     @Test
+    public void testNegateExpr() {
+        tExpr(new NegExpr<>(new PlusExpr<>(new IntValue<>(1), new IntValue<>(2))), new IntValue<>(-3));
+    }
+
+    @Test
     public void testComplex() {
         // 2*((x + 0) / (6 - 3)) * y
         tExpr(

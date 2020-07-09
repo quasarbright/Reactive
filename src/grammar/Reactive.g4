@@ -1,16 +1,15 @@
-// TODO unary minus to handle 1-2
 grammar Reactive;
 
 fragment DIGIT : '0'..'9';
 
 DOUBLE
-    : '-'?(DIGIT)+'.'
-    | '-'?'.'(DIGIT)+
-    | '-'?(DIGIT)+'.'(DIGIT)+
+    : (DIGIT)+'.'
+    | '.'(DIGIT)+
+    | (DIGIT)+'.'(DIGIT)+
     ;
 
 INTEGER
-    : '-'?(DIGIT)+
+    : (DIGIT)+
     ;
 
 fragment ID_START
@@ -35,8 +34,6 @@ TIMES : '*';
 DIVIDE : '/';
 EQUALS : '=';
 
-//NEWLINE : '\n\r' | '\n' | '\r\n';
-
 WS : [ \n\r\t] -> skip;
 
 program : assignment* EOF;
@@ -54,9 +51,14 @@ sumDiff
     ;
 
 prodDiv
-    : left=prodDiv TIMES right=parenExpr # Times
-    | left=prodDiv DIVIDE right=parenExpr # Divide
-    | parenExpr # PDChild
+    : left=prodDiv TIMES right=uminus # Times
+    | left=prodDiv DIVIDE right=uminus # Divide
+    | uminus # PDChild
+    ;
+
+uminus
+    : MINUS child=uminus # UMinus
+    | parenExpr # UMChild
     ;
 
 parenExpr

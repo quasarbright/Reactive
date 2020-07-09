@@ -30,17 +30,17 @@ public class ExprVisitorTest {
         tParse("1.00", new DoubleValue<>(1.0));
         tParse("1.", new DoubleValue<>(1.0));
         tParse(".1", new DoubleValue<>(.1));
-        tParse("-1.0", new DoubleValue<>(-1.0));
-        tParse("-1.", new DoubleValue<>(-1.0));
-        tParse("-.1", new DoubleValue<>(-.1));
+        tParse("-1.0", new NegExpr<>(new DoubleValue<>(1.0)));
+        tParse("-1.", new NegExpr<>(new DoubleValue<>(1.0)));
+        tParse("-.1", new NegExpr<>(new DoubleValue<>(.1)));
     }
 
     @Test
     public void int_() {
         tParse("1", new IntValue<>(1));
         tParse("11", new IntValue<>(11));
-        tParse("-1", new IntValue<>(-1));
-        tParse("-11", new IntValue<>(-11));
+        tParse("-1", new NegExpr<>(new IntValue<>(1)));
+        tParse("-11", new NegExpr<>(new IntValue<>(11)));
     }
 
     @Test
@@ -57,7 +57,7 @@ public class ExprVisitorTest {
     @Test
     public void plus() {
         tParse("1 + 2", new PlusExpr<>(new IntValue<>(1), new IntValue<>(2)));
-        tParse("1 + -2", new PlusExpr<>(new IntValue<>(1), new IntValue<>(-2)));
+        tParse("1 + -2", new PlusExpr<>(new IntValue<>(1), new NegExpr<>(new IntValue<>(2))));
         tParse("1 + (2 + 3)", new PlusExpr<>(new IntValue<>(1), new PlusExpr<>(new IntValue<>(2), new IntValue<>(3))));
         tParse("(1 + 2) + 3", new PlusExpr<>(new PlusExpr<>(new IntValue<>(1), new IntValue<>(2)), new IntValue<>(3)));
         tParse("1 + 2 + 3", new PlusExpr<>(new PlusExpr<>(new IntValue<>(1), new IntValue<>(2)), new IntValue<>(3)));
@@ -66,7 +66,7 @@ public class ExprVisitorTest {
     @Test
     public void minus() {
         tParse("1 - 2", new MinusExpr<>(new IntValue<>(1), new IntValue<>(2)));
-        tParse("1 - -2", new MinusExpr<>(new IntValue<>(1), new IntValue<>(-2)));
+        tParse("1 - -2", new MinusExpr<>(new IntValue<>(1),new NegExpr<>(new IntValue<>(2))));
         tParse("1 - (2 - 3)", new MinusExpr<>(new IntValue<>(1), new MinusExpr<>(new IntValue<>(2), new IntValue<>(3))));
         tParse("(1 - 2) - 3", new MinusExpr<>(new MinusExpr<>(new IntValue<>(1), new IntValue<>(2)), new IntValue<>(3)));
         tParse("1 - 2 - 3", new MinusExpr<>(new MinusExpr<>(new IntValue<>(1), new IntValue<>(2)), new IntValue<>(3)));
@@ -75,7 +75,7 @@ public class ExprVisitorTest {
     @Test
     public void times() {
         tParse("1 * 2", new TimesExpr<>(new IntValue<>(1), new IntValue<>(2)));
-        tParse("1 * -2", new TimesExpr<>(new IntValue<>(1), new IntValue<>(-2)));
+        tParse("1 * -2", new TimesExpr<>(new IntValue<>(1), new NegExpr<>(new IntValue<>(2))));
         tParse("1 * (2 * 3)", new TimesExpr<>(new IntValue<>(1), new TimesExpr<>(new IntValue<>(2), new IntValue<>(3))));
         tParse("(1 * 2) * 3", new TimesExpr<>(new TimesExpr<>(new IntValue<>(1), new IntValue<>(2)), new IntValue<>(3)));
         tParse("1 * 2 * 3", new TimesExpr<>(new TimesExpr<>(new IntValue<>(1), new IntValue<>(2)), new IntValue<>(3)));
@@ -84,7 +84,7 @@ public class ExprVisitorTest {
     @Test
     public void divide() {
         tParse("1 / 2", new DivideExpr<>(new IntValue<>(1), new IntValue<>(2)));
-        tParse("1 / -2", new DivideExpr<>(new IntValue<>(1), new IntValue<>(-2)));
+        tParse("1 / -2", new DivideExpr<>(new IntValue<>(1), new NegExpr<>(new IntValue<>(2))));
         tParse("1 / (2 / 3)", new DivideExpr<>(new IntValue<>(1), new DivideExpr<>(new IntValue<>(2), new IntValue<>(3))));
         tParse("(1 / 2) / 3", new DivideExpr<>(new DivideExpr<>(new IntValue<>(1), new IntValue<>(2)), new IntValue<>(3)));
         tParse("1 / 2 / 3", new DivideExpr<>(new DivideExpr<>(new IntValue<>(1), new IntValue<>(2)), new IntValue<>(3)));
@@ -106,6 +106,9 @@ public class ExprVisitorTest {
 
     @Test
     public void unaryMinus() {
+        // no whitespace separation in subtraction is ok
         tParse("2-1", new MinusExpr<>(new IntValue<>(2), new IntValue<>(1)));
+        tParse("-x", new NegExpr<>(new VarExpr<>(x)));
+        tParse("-(1 + 2)", new NegExpr<>(new PlusExpr<>(new IntValue<>(1), new IntValue<>(2))));
     }
 }
