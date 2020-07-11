@@ -5,6 +5,7 @@ import expressions.values.ErrorValue;
 import expressions.values.Value;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CellGraph<Name> implements Model<Name> {
     /*
@@ -110,7 +111,9 @@ public class CellGraph<Name> implements Model<Name> {
 
     @Override
     public Set<Name> getNames() {
-        return this.cells.keySet();
+        return this.cells.keySet().stream()
+                .filter(name -> this.cells.get(name).isPresent())
+                .collect(Collectors.toSet());
     }
 
     @Override
