@@ -11,9 +11,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TableView implements VisualView {
+public class TableView implements VisualView, ViewForm.ViewFormListener {
     private final JFrame frame;
     private final List<ViewListener> listeners;
+    private Timer timer; // auto update period in milliseconds
 
     public TableView(DiffModel model) {
         try {
@@ -28,7 +29,11 @@ public class TableView implements VisualView {
         this.frame.setSize(400, 400);
         this.frame.setResizable(true);
         AbstractTableModel tableModel = new ModelTableModel(model);
-        ViewForm viewForm = new ViewForm(tableModel, this.listeners);
+        ViewForm viewForm = new ViewForm(tableModel, this.listeners, this);
+        this.timer = new Timer(Integer.MAX_VALUE, viewForm.onUpdate);
+        this.timer.stop();
+        this.timer.setInitialDelay(0);
+        this.timer.setDelay(1000);
         this.frame.setContentPane(viewForm.panelMain);
         this.frame.setMinimumSize(viewForm.panelMain.getMinimumSize());
 
@@ -99,8 +104,26 @@ public class TableView implements VisualView {
         this.listeners.add(listener);
     }
 
+    @Override
+    public void setRate(int rate) {
+        this.timer.setDelay(rate);
+    }
+
+    @Override
+    public void startAuto(int rate) {
+        this.timer.setDelay(rate);
+        this.timer.start();
+    }
+
+    @Override
+    public void stopAuto() {
+        this.timer.stop();
+    }
+
     private void update() {
         this.frame.repaint();
         this.frame.revalidate();
     }
+
+//    private void startAuto()
 }

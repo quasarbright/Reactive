@@ -11,6 +11,7 @@ public class Main {
         controller.open();
         /*
         TODO start and stop auto update based on a specified framerate
+        TODO handle bad delta in update (dt with no t)
         TODO undo and redo
         TODO graphing
         TODO save vs save as
