@@ -61,7 +61,7 @@ public class VisualController implements Controller {
     public void onOpen(Reader in) {
         ModelReader reader = new ModelReader(() -> new DiffModel(new CellGraph<>()));
         // TODO handle reading errors even though it should be impossible to save a file with those kinds of errors
-        this.model = (DiffModel) reader.read(in);
-        this.open();
+        DiffModel model = (DiffModel) reader.read(in);
+        new VisualController(model, this.viewFactory, this.saveViewFactory).open();
     }
 }

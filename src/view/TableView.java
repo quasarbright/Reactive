@@ -12,6 +12,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +48,12 @@ public class TableView implements VisualView {
             FileDialog fd = new FileDialog(this.frame, "Save file", FileDialog.SAVE);
             fd.setFilenameFilter(fileFilter);
             fd.setVisible(true);
-            if (fd.getFile() != null) {
-                String f = fd.getDirectory() + fd.getFile();
+            String filename = fd.getFile();
+            if (filename != null) {
+                if(!filename.toLowerCase().endsWith(".rctv")) {
+                    filename += ".rctv";
+                }
+                String f = fd.getDirectory() + filename;
                 File file = new File(f);
                 try {
                     FileWriter out = new FileWriter(file);
@@ -60,6 +65,7 @@ public class TableView implements VisualView {
                 }
             }
         });
+        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
         menu.add(item);
         item = new JMenuItem("Open");
         item.addActionListener(e -> {
@@ -77,6 +83,7 @@ public class TableView implements VisualView {
                 }
             }
         });
+        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK));
         menu.add(item);
         menuBar.add(menu);
         this.frame.setJMenuBar(menuBar);
