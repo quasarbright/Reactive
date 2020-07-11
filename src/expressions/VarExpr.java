@@ -1,5 +1,6 @@
 package expressions;
 
+import diffName.DiffName;
 import expressions.values.Value;
 
 import java.util.HashSet;
@@ -42,5 +43,16 @@ public class VarExpr<Name> implements Expr<Name> {
         return "VarExpr{" +
                 "name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public String pretty() {
+        // JANK
+        if(this.name instanceof DiffName) {
+            DiffName name = (DiffName) this.name;
+            return name.pretty();
+        } else {
+            return this.name.toString();
+        }
     }
 }

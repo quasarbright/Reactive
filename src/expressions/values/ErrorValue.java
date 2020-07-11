@@ -88,4 +88,12 @@ public class ErrorValue<Name> implements Value<Name> {
                 "message='" + message + '\'' +
                 '}';
     }
+
+    @Override
+    public String pretty() {
+        return new StringBuilder()
+                .append("ERROR: ")
+                .append(this.message)
+                .toString();
+    }
 }

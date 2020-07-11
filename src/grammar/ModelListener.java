@@ -3,13 +3,17 @@ package grammar;
 import diffName.DiffName;
 import expressions.Expr;
 import model.Model;
+import org.antlr.v4.runtime.misc.Pair;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ModelListener extends ReactiveBaseListener {
 
-    private final Model<DiffName> model;
+    public final List<Pair<DiffName,Expr<DiffName>>> assignments;
 
-    public ModelListener(Model<DiffName> model) {
-        this.model = model;
+    public ModelListener() {
+        this.assignments = new ArrayList<>();
     }
 
     @Override
@@ -17,6 +21,6 @@ public class ModelListener extends ReactiveBaseListener {
         String lhs = ctx.IDENTIFIER().getText();
         DiffName name = ExprVisitor.getName(lhs);
         Expr<DiffName> rhs = ctx.expr().accept(new ExprVisitor());
-        this.model.setCell(name, rhs);
+        this.assignments.add(new Pair<>(name, rhs));
     }
 }

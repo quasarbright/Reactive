@@ -5,9 +5,11 @@ import java.util.function.Consumer;
 /**
  * Either a variable, or change in a variable
  */
-public interface DiffName {
+public interface DiffName extends Comparable<DiffName> {
     boolean isDelta();
     boolean isVar();
+
+    int depth();
 
     void ifDelta(Consumer<DiffName> action);
     void ifVar(Consumer<String> action);
@@ -20,9 +22,24 @@ public interface DiffName {
     DiffName getDelta();
 
     /**
-     * If this is a var, return this var's name.
-     * @return this var's name
-     * @throws IllegalStateException if this is not a var
+     * Get the var this DiffName describes (for dx, it'd be x)
+     * @return this DiffName's var
      */
     String getVar();
+
+    /**
+     *
+     * @return a pretty representation of this name.
+     */
+    String pretty();
+
+    @Override
+    default int compareTo(DiffName diffName) {
+        int strComp = this.getVar().compareTo(diffName.getVar());
+        if(strComp == 0) {
+            return this.depth() - diffName.depth();
+        } else {
+            return strComp;
+        }
+    }
 }

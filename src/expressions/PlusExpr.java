@@ -4,7 +4,7 @@ import expressions.values.Value;
 
 public class PlusExpr<Name> extends BinopExpr<Name> {
     public PlusExpr(Expr<Name> left, Expr<Name> right) {
-        super(left, right);
+        super(left, right, "+");
     }
 
     @Override

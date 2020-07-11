@@ -9,10 +9,12 @@ import java.util.function.Function;
 
 public abstract class BinopExpr<Name> implements Expr<Name> {
     protected final Expr<Name> left, right;
+    private final String op;
 
-    public BinopExpr(Expr<Name> left, Expr<Name> right) {
+    public BinopExpr(Expr<Name> left, Expr<Name> right, String op) {
         this.left = left;
         this.right = right;
+        this.op = op;
     }
     protected abstract Value<Name> evalHelp(Value<Name> left, Value<Name> right);
 
@@ -44,5 +46,19 @@ public abstract class BinopExpr<Name> implements Expr<Name> {
         Set<Name> right = this.right.getFreeVars();
         left.addAll(right);
         return left;
+    }
+
+    @Override
+    public String pretty() {
+        StringBuilder ans = new StringBuilder();
+        return new StringBuilder()
+                .append("(")
+                .append(this.left.pretty())
+                .append(") ")
+                .append(this.op)
+                .append(" (")
+                .append(this.right.pretty())
+                .append(")")
+                .toString();
     }
 }

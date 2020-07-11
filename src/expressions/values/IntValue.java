@@ -96,4 +96,9 @@ public class IntValue<Name> implements Value<Name> {
                 "val=" + val +
                 '}';
     }
+
+    @Override
+    public String pretty() {
+        return Integer.toString(this.val);
+    }
 }

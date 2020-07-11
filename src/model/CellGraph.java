@@ -109,6 +109,11 @@ public class CellGraph<Name> implements Model<Name> {
     }
 
     @Override
+    public Set<Name> getNames() {
+        return this.cells.keySet();
+    }
+
+    @Override
     public Map<Name, Value<Name>> getValues() {
         Map<Name, Value<Name>> ans = new HashMap<>();
         this.cells.values().stream()

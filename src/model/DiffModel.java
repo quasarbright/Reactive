@@ -6,6 +6,7 @@ import expressions.PlusExpr;
 import expressions.values.Value;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * A model which can track differentials and deltas of variables as well as variables.
@@ -31,6 +32,11 @@ public class DiffModel implements Model<DiffName> {
     @Override
     public Value<DiffName> getValue(DiffName diffName) {
         return delegate.getValue(diffName);
+    }
+
+    @Override
+    public Set<DiffName> getNames() {
+        return delegate.getNames();
     }
 
     @Override

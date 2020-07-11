@@ -44,6 +44,11 @@ public class DeltaName implements DiffName {
     }
 
     @Override
+    public int depth() {
+        return 1+this.var.depth();
+    }
+
+    @Override
     public void ifDelta(Consumer<DiffName> action) {
         action.accept(this.var);
     }
@@ -60,6 +65,14 @@ public class DeltaName implements DiffName {
 
     @Override
     public String getVar() {
-        throw new IllegalStateException("not a var");
+        return this.var.getVar();
+    }
+
+    @Override
+    public String pretty() {
+        return new StringBuilder()
+                .append("d")
+                .append(this.var.pretty())
+                .toString();
     }
 }

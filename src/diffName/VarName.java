@@ -41,6 +41,11 @@ public class VarName implements DiffName {
     }
 
     @Override
+    public int depth() {
+        return 0;
+    }
+
+    @Override
     public void ifDelta(Consumer<DiffName> action) {
 
     }
@@ -57,6 +62,11 @@ public class VarName implements DiffName {
 
     @Override
     public String getVar() {
+        return this.name;
+    }
+
+    @Override
+    public String pretty() {
         return this.name;
     }
 }

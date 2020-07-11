@@ -4,7 +4,7 @@ import expressions.values.Value;
 
 public class TimesExpr<Name> extends BinopExpr<Name> {
     public TimesExpr(Expr<Name> left, Expr<Name> right) {
-        super(left, right);
+        super(left, right, "*");
     }
 
     @Override

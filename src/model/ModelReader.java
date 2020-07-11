@@ -1,16 +1,20 @@
 package model;
 
 import diffName.DiffName;
+import expressions.Expr;
 import grammar.ModelListener;
 import grammar.ReactiveLexer;
 import grammar.ReactiveParser;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.atn.ATNConfigSet;
+import org.antlr.v4.runtime.dfa.DFA;
+import org.antlr.v4.runtime.misc.Pair;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.BitSet;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -18,13 +22,21 @@ import java.util.function.Supplier;
  */
 public class ModelReader {
     private final Supplier<Model<DiffName>> factory;
-
+    private final Consumer<RuntimeException> onBadEdit;
     /**
      * Creates a model reader from the factory
      * @param factory produces an empty model
      */
     public ModelReader(Supplier<Model<DiffName>> factory) {
+        this(factory, (e) -> {
+            if (!e.getLocalizedMessage().contains("cyclic definition")) {
+                throw e;
+            }
+        });
+    }
+    public ModelReader(Supplier<Model<DiffName>> factory, Consumer<RuntimeException> onBadEdit) {
         this.factory = factory;
+        this.onBadEdit = onBadEdit;
     }
 
     public Model<DiffName> read(Reader in) {
@@ -35,13 +47,35 @@ public class ModelReader {
             e.printStackTrace();
             throw new IllegalStateException("io error");
         }
+        boolean[] parseError = new boolean[]{false};
+        BaseErrorListener errorListener = new BaseErrorListener() {
+            @Override
+            public void syntaxError(Recognizer<?, ?> recognizer, Object o, int i, int i1, String s, RecognitionException e) {
+                onBadEdit.accept(new IllegalStateException(s));
+                parseError[0] = true;
+            }
+        };
         ReactiveLexer lexer = new ReactiveLexer(cs);
+        lexer.removeErrorListeners();
+        lexer.addErrorListener(errorListener);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         ReactiveParser parser = new ReactiveParser(tokens);
+        parser.removeErrorListeners();
+        parser.addErrorListener(errorListener);
         ReactiveParser.ProgramContext tree = parser.program();
         Model<DiffName> model = factory.get();
-        ModelListener listener = new ModelListener(model);
-        ParseTreeWalker.DEFAULT.walk(listener, tree);
+        if(!parseError[0]) {
+            // trying to parse on a parse error leads to null pointer exceptions
+            ModelListener listener = new ModelListener();
+            ParseTreeWalker.DEFAULT.walk(listener, tree);
+            listener.assignments.forEach(p -> {
+                try {
+                    model.setCell(p.a, p.b);
+                } catch (RuntimeException e) {
+                    this.onBadEdit.accept(e);
+                }
+            });
+        }
         return model;
     }
 }

@@ -4,7 +4,7 @@ import expressions.values.Value;
 
 public class DivideExpr<Name> extends BinopExpr<Name> {
     public DivideExpr(Expr<Name> left, Expr<Name> right) {
-        super(left, right);
+        super(left, right, "/");
     }
 
     @Override

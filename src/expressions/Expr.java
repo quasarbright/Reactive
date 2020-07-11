@@ -21,4 +21,10 @@ public interface Expr<Name> {
      * @return variables occurring free in this expression
      */
     Set<Name> getFreeVars();
+
+    /**
+     *
+     * @return a pretty representation of this name.
+     */
+    String pretty();
 }

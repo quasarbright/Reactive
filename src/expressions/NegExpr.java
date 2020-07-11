@@ -44,4 +44,13 @@ public class NegExpr<Name> implements Expr<Name> {
                 "child=" + child +
                 '}';
     }
+
+    @Override
+    public String pretty() {
+        return new StringBuilder()
+                .append("-(")
+                .append(this.child.pretty())
+                .append(")")
+                .toString();
+    }
 }

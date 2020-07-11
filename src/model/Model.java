@@ -4,6 +4,7 @@ import expressions.Expr;
 import expressions.values.Value;
 
 import java.util.Map;
+import java.util.Set;
 
 public interface Model<Name> {
     /**
@@ -29,6 +30,12 @@ public interface Model<Name> {
      * @throws IllegalArgumentException if name not found
      */
     Value<Name> getValue(Name name);
+
+    /**
+     * Get all call names.
+     * @return all cell names
+     */
+    Set<Name> getNames();
 
     /**
      * Get all cell values.

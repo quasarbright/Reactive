@@ -96,4 +96,9 @@ public class DoubleValue<Name> implements Value<Name> {
                 "val=" + val +
                 '}';
     }
+
+    @Override
+    public String pretty() {
+        return Double.toString(this.val);
+    }
 }

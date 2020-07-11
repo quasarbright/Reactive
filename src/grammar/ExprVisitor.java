@@ -6,6 +6,7 @@ import diffName.VarName;
 import expressions.*;
 import expressions.values.DoubleValue;
 import expressions.values.IntValue;
+import model.Model;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
