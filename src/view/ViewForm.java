@@ -91,7 +91,7 @@ public class ViewForm {
         });
     }
 
-    public static interface ViewFormListener {
+    public interface ViewFormListener {
         void setRate(int rate);
         void startAuto(int rate);
         void stopAuto();

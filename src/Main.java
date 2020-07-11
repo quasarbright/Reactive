@@ -12,6 +12,7 @@ public class Main {
         /*
         TODO start and stop auto update based on a specified framerate
         TODO handle bad delta in update (dt with no t)
+        TODO clean up relationship between view and form with more callbacks
         TODO undo and redo
         TODO graphing
         TODO save vs save as
