@@ -1,19 +1,14 @@
 package model;
 
 import diffName.DiffName;
-import expressions.Expr;
 import grammar.ModelListener;
 import grammar.ReactiveLexer;
 import grammar.ReactiveParser;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.atn.ATNConfigSet;
-import org.antlr.v4.runtime.dfa.DFA;
-import org.antlr.v4.runtime.misc.Pair;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.BitSet;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 

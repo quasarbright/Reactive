@@ -2,10 +2,7 @@ package view;
 
 import diffName.DiffName;
 import expressions.Expr;
-import expressions.values.Value;
 import model.Model;
-
-import java.util.Map;
 
 public class SaveFileView implements TextView {
     private final Model<DiffName> model;

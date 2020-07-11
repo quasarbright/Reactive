@@ -1,14 +1,8 @@
 package view;
 
-import diffName.DiffName;
 import model.DiffModel;
-import model.Model;
-import org.antlr.v4.gui.JFileChooserConfirmOverwrite;
 
 import javax.swing.*;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
@@ -16,7 +10,6 @@ import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class TableView implements VisualView {
     private final JFrame frame;

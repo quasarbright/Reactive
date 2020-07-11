@@ -1,10 +1,7 @@
 package controller;
 
-import diffName.DiffName;
-import expressions.Expr;
 import model.CellGraph;
 import model.DiffModel;
-import model.Model;
 import model.ModelReader;
 import view.TextView;
 import view.VisualView;
