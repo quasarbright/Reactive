@@ -3,6 +3,7 @@ package view;
 import diffName.DiffName;
 import expressions.Expr;
 
+import java.io.Reader;
 import java.util.Optional;
 
 public interface ViewListener {
@@ -17,4 +18,8 @@ public interface ViewListener {
      * Update the model (for deltas)
      */
     void onUpdate();
+
+    void onSave(Appendable out);
+
+    void onOpen(Reader in);
 }

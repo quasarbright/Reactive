@@ -2,21 +2,28 @@ package controller;
 
 import diffName.DiffName;
 import expressions.Expr;
+import model.CellGraph;
 import model.DiffModel;
+import model.Model;
 import model.ModelReader;
+import view.TextView;
 import view.VisualView;
 
+import java.io.IOException;
+import java.io.Reader;
 import java.io.StringReader;
 import java.util.Optional;
 import java.util.function.Function;
 
 public class VisualController implements Controller {
-    private final DiffModel model;
+    private DiffModel model;
     private final Function<DiffModel, VisualView> viewFactory;
+    private final Function<DiffModel, TextView> saveViewFactory;
 
-    public VisualController(DiffModel model, Function<DiffModel, VisualView> viewFactory) {
+    public VisualController(DiffModel model, Function<DiffModel, VisualView> viewFactory, Function<DiffModel, TextView> saveViewFactory) {
         this.model = model;
         this.viewFactory = viewFactory;
+        this.saveViewFactory = saveViewFactory;
     }
 
     @Override
@@ -38,5 +45,23 @@ public class VisualController implements Controller {
     @Override
     public void onUpdate() {
         model.update();
+    }
+
+    @Override
+    public void onSave(Appendable out) {
+        TextView view = this.saveViewFactory.apply(this.model);
+        try {
+            out.append(view.render());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onOpen(Reader in) {
+        ModelReader reader = new ModelReader(() -> new DiffModel(new CellGraph<>()));
+        // TODO handle reading errors even though it should be impossible to save a file with those kinds of errors
+        this.model = (DiffModel) reader.read(in);
+        this.open();
     }
 }

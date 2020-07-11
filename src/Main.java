@@ -7,6 +7,7 @@ import model.DiffModel;
 import model.Model;
 import model.ModelReader;
 import org.antlr.v4.runtime.RecognitionException;
+import view.SaveFileView;
 import view.TableView;
 import view.VisualView;
 
@@ -19,7 +20,7 @@ public class Main {
 //        DiffModel model = (DiffModel) reader.read(new StringReader("x"));
 //        VisualView view = new TableView(model);
 //        view.show();
-        Controller controller = new VisualController(new DiffModel(new CellGraph<>()), TableView::new);
+        Controller controller = new VisualController(new DiffModel(new CellGraph<>()), TableView::new, SaveFileView::new);
         controller.open();
     }
 }
