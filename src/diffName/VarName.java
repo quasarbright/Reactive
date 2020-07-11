@@ -25,9 +25,7 @@ public class VarName implements DiffName {
 
     @Override
     public String toString() {
-        return "VarName{" +
-                "name='" + name + '\'' +
-                '}';
+        return this.pretty();
     }
 
     @Override

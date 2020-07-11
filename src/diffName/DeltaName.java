@@ -28,9 +28,7 @@ public class DeltaName implements DiffName {
 
     @Override
     public String toString() {
-        return "DeltaName{" +
-                "var=" + var +
-                '}';
+        return this.pretty();
     }
 
     @Override
@@ -75,4 +73,6 @@ public class DeltaName implements DiffName {
                 .append(this.var.pretty())
                 .toString();
     }
+
+
 }
