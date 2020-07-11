@@ -7,6 +7,7 @@ import model.Model;
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.util.ArrayList;
@@ -18,6 +19,13 @@ public class TableView implements VisualView {
     private final List<ViewListener> listeners;
 
     public TableView(DiffModel model) {
+        try {
+            UIManager.setLookAndFeel(new NimbusLookAndFeel());
+        } catch (UnsupportedLookAndFeelException ignored) {
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ignored1) { }
+        }
         this.frame = new JFrame("Reactive");
         this.listeners = new ArrayList<>();
         this.frame.setSize(400, 400);
@@ -25,6 +33,7 @@ public class TableView implements VisualView {
         AbstractTableModel tableModel = new ModelTableModel(model);
         ViewForm viewForm = new ViewForm(tableModel, this.listeners);
         this.frame.setContentPane(viewForm.panelMain);
+        this.frame.setMinimumSize(viewForm.panelMain.getMinimumSize());
     }
 
     @Override
