@@ -1,5 +1,3 @@
-import java.lang.IllegalStateException
-
 sealed class Expr
 
 data class PlusExpr(val left : Expr, val right : Expr) : Expr()
@@ -21,22 +19,6 @@ data class IntVal(val value : Int) : Value()
 data class DoubleVal(val value : Double) : Value()
 
 data class ErrorVal(val msg : String) : Value()
-
-fun numToValue(n : Number) : Value {
-    return when (n) {
-        is Double -> DoubleVal(n)
-        is Int -> IntVal(n)
-        else -> throw IllegalStateException()
-    }
-}
-
-fun valueToNumber(v : Value) : Number {
-    return when(v) {
-        is IntVal -> v.value
-        is DoubleVal -> v.value
-        is ErrorVal -> throw IllegalStateException()
-    }
-}
 
 fun eval(e : Expr, env : (String) -> Value) : Value {
     fun rec(e : Expr) : Value = eval(e, env)
